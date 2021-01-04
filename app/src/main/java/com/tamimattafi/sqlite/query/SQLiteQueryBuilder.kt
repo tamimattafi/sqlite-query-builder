@@ -11,7 +11,7 @@ open class SQLiteQueryBuilder {
      * @see StringBuilder
      *
      */
-    private val rawQueryBuilder = StringBuilder()
+    protected open val rawQueryBuilder = StringBuilder()
 
 
     /**
@@ -19,7 +19,7 @@ open class SQLiteQueryBuilder {
      * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite SELECT keyword</a>
      *
      */
-    fun select(): Selection {
+    open fun select(): Selection {
 
     }
 
@@ -29,7 +29,7 @@ open class SQLiteQueryBuilder {
      * @see <a href="https://www.sqlite.org/lang.html">SQLite Syntax</a>
      *
      */
-    fun appendRawSyntax(syntax: String) = this.apply {
+    protected open fun appendRawSyntax(syntax: String) = this.apply {
         this.rawQueryBuilder.append(syntax).append(SEPARATOR)
     }
 
@@ -40,7 +40,7 @@ open class SQLiteQueryBuilder {
      * @see select
      *
      */
-    inner class Selection {
+    open inner class Selection internal constructor() {
 
 
         /**
@@ -51,7 +51,7 @@ open class SQLiteQueryBuilder {
          * @see Source
          *
          */
-        fun all(): Source = this.appendSelectionSyntax(ALL)
+        open fun all(): Source = this.appendRawSelectionSyntax(ALL)
 
 
         /**
@@ -64,7 +64,7 @@ open class SQLiteQueryBuilder {
          * @see Source
          *
          */
-        fun distinct(columns: String): Source {
+        open fun distinct(columns: Array<String>): Source {
 
         }
 
@@ -79,14 +79,14 @@ open class SQLiteQueryBuilder {
          * @see Source
          *
          */
-        fun columns(columns: String): Source {
+        open fun columns(columns: Array<String>): Source {
 
         }
 
 
         /**
          * Appends a raw syntax to the selection process. Raw syntax is not filtered or checked for errors
-         * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite 'SELECT column1, column2' expression</a>
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite 'SELECT (raw-syntax)' expression</a>
          *
          * @param syntax The raw syntax to be appended
          *
@@ -94,25 +94,71 @@ open class SQLiteQueryBuilder {
          * @see Source
          *
          */
-        fun appendSelectionSyntax(syntax: String): Source {
-            appendRawSyntax(syntax)
+        protected open fun appendRawSelectionSyntax(syntax: String): Source {
+
         }
 
-        inner class Source {
 
-            fun fromTable(table: String): Modification {
+        /**
+         * Handles building a selection source query and limits syntax errors by limiting the amount of methods that can be called
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite 'SELECT column1, column2 FROM table' expression</a>
+         *
+         */
+        open inner class Source internal constructor() {
+
+
+            /**
+             *  Creates a selection source that will return columns or data from a specific table
+             *  @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite 'SELECT column1, column2 FROM table' expression</a>
+             *
+             *  @param table The name of the table containing data
+             *
+             *  @return Returns query modification handler
+             *  @see Modification
+             *
+             */
+            open fun fromTable(table: String): Modification {
 
             }
 
-            fun fromRawQuery(rawQuery: String): Modification {
+
+            /**
+             *  Creates a selection source that will return columns or data from the result of another query
+             *  @see <a href="https://www.sqlitetutorial.net/sqlite-subquery/">SQLite 'SELECT * FROM (sub-query)' expression</a>
+             *
+             *  @param rawQuery The sub-query that contains our required data
+             *
+             *  @return Returns query modification handler
+             *  @see Modification
+             *
+             */
+            open fun fromSubQuery(rawQuery: String): Modification {
 
             }
 
+
+            /**
+             * Appends a raw syntax to the selection source process. Raw syntax is not filtered or checked for errors
+             * @see <a href="https://www.sqlitetutorial.net/sqlite-subquery/">SQLite 'SELECT * FROM (raw-syntax)' expression</a>
+             *
+             * @param syntax The raw syntax to be appended
+             *
+             * @return Returns query modification handler
+             * @see Modification
+             *
+             */
+            protected open fun appendRawSourceSyntax(syntax: String): Source {
+
+            }
+
+
         }
+
 
     }
 
-    inner class Modification {
+    
+    open inner class Modification internal constructor() {
 
 
 
@@ -150,7 +196,7 @@ open class SQLiteQueryBuilder {
         const val ON = "ON"
         const val IS_NULL = "IS NULL"
         const val IS_NOT_NULL = "IS NOT NULL"
-        const val SEPARATOR = ' '
-        const val ELEMENT_SEPARATOR = ','
+        const val SEPARATOR = " "
+        const val ELEMENT_SEPARATOR = ","
     }
 }
