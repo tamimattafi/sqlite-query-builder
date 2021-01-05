@@ -157,10 +157,129 @@ open class SQLiteQueryBuilder {
 
     }
 
-    
+
+    /**
+     * Handles query modification such as logical statements, joints, direction etc..
+     *
+     */
     open inner class Modification internal constructor() {
 
 
+        /**
+         * Adds a where-clause (condition) to the query to filter by a specific column of the selected table
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite 'SELECT * FROM table WHERE (condition)' expression</a>
+         *
+         * @param column The column to be filtered by
+         *
+         * @return Returns where clause building handler
+         * @see WhereClause
+         *
+         */
+        open fun where(column: String): WhereClause {
+
+        }
+
+
+
+        open fun joinTo(subQuery: String) {
+
+        }
+
+        open fun orderBy(column: String) {
+
+        }
+
+        open fun limit(limit: Long) {
+
+        }
+
+        open inner class WhereClause internal constructor() {
+
+            fun equalTo(value: Any): Continuation {
+
+            }
+
+            fun notEqualTo(value: Any): Continuation {
+
+            }
+
+            fun lessThan(value: Any): Continuation {
+
+            }
+
+            fun greaterThan(value: Any): Continuation {
+
+            }
+
+            fun lessOrEqualTo(value: Any): Continuation {
+
+            }
+
+            fun greaterOrEqualTo(value: Any): Continuation {
+
+            }
+
+            fun containedIn(values: Array<Any>): Continuation {
+
+            }
+
+            fun notContainedIn(values: Array<Any>): Continuation {
+
+            }
+
+            fun containedIn(subQuery: String): Continuation {
+
+            }
+
+            fun notContainedIn(subQuery: String): Continuation {
+
+            }
+
+            fun like(value: Any): Continuation {
+
+            }
+
+            fun notLike(value: Any): Continuation {
+
+            }
+
+            fun existsIn(subQuery: String): Continuation {
+
+            }
+
+            fun notExitsIn(subQuery: String): Continuation {
+
+            }
+
+            fun between(firstValue: Any, secondValue: Any): Continuation {
+
+            }
+
+            fun notBetween(firstValue: Any, secondValue: Any): Continuation {
+
+            }
+
+            open inner class Continuation internal constructor() {
+
+                fun and(field: String): WhereClause {
+
+                }
+
+                fun or(field: String): WhereClause {
+
+                }
+
+                fun orderBy(field: String) {
+
+                }
+
+                fun limit(limit: Long) {
+
+                }
+
+            }
+
+        }
 
     }
 
