@@ -33,7 +33,7 @@ android {
 }
 
 tasks.named("dokkaJekyll") {
-    def outputDir = new File(projectDir.path + "/dokka")
+    def outputDir = new File(projectDir.parent + "/docs")
     outputDirectory.set(outputDir)
 }
 
