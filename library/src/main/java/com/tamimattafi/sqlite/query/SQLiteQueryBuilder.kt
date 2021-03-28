@@ -33,6 +33,7 @@ import com.tamimattafi.sqlite.query.SQLiteSyntax.ORDER_BY
 import com.tamimattafi.sqlite.query.SQLiteSyntax.SELECT
 import com.tamimattafi.sqlite.query.SQLiteSyntax.SEPARATOR
 import com.tamimattafi.sqlite.query.SQLiteSyntax.WHERE
+import java.lang.IllegalArgumentException
 import java.lang.ref.WeakReference
 
 
@@ -60,101 +61,322 @@ open class SQLiteQueryBuilder {
 
     /**
      * Starts building a selection query to read lists, columns or single rows from a table
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite SELECT keyword</a>
+     *
+     * @return Selection type handler
+     *
+     * @see Selecting
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite Selection Syntax</a>
      *
      */
     open fun select(): Selecting {
-        this.appendRawSyntax(SELECT)
+        //Appends "SELECT" keyword
+        this.append(SELECT)
+
+        //Creates (Lazy) and returns selection type handler
         return this.beginSelection()
     }
 
+
     /**
      * Appends a raw SQLite syntax or query to the current query that's being built
+     *
+     * Note:
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
+     *
+     * @param syntax The raw syntax to be appended
+     *
+     * @return The current query-builder instance
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
      * @see <a href="https://www.sqlite.org/lang.html">SQLite Syntax</a>
      *
      */
-    open fun appendRawSyntax(syntax: String) = this.apply {
+    open fun append(syntax: String) = this.apply {
+        //Throws Illegal argument exception if the syntax is blank (contains only spaces)
         require(syntax.isNotBlank())
-        this.rawQueryBuilder.append("\n").append(syntax).append(SEPARATOR)
+
+        //Appends the raw syntax and a space at the end
+        this.rawQueryBuilder.append(syntax).append(SEPARATOR)
     }
 
 
     /**
-     * Appends a raw syntax to the selection process. Raw syntax is not filtered or checked for errors
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite 'SELECT (raw-syntax)' expression</a>
+     * Appends a raw syntax and starts source selection process.
+     *
+     * Note:
+     * This method calls SQLiteQueryBuilder.append(...) to append the raw syntax.
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
      *
      * @param syntax The raw syntax to be appended
      *
-     * @return Returns selection source handler
+     * @return Selection source handler
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
      * @see Source
+     * @see append
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite Selection Syntax</a>
      *
      */
-    protected open fun appendAndSelectSource(syntax: String): Source {
-        this.appendRawSyntax(syntax)
+    open fun appendAndSelectSource(syntax: String): Source {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns source selection handler
         return this.beginSourceSelection()
     }
 
+
     /**
-     * Appends a raw syntax to the selection source process. Raw syntax is not filtered or checked for errors
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-subquery/">SQLite 'SELECT * FROM (raw-syntax)' expression</a>
+     * Appends a raw syntax and starts modification process.
+     *
+     * Note:
+     * This method calls SQLiteQueryBuilder.append(...) to append the raw syntax.
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
      *
      * @param syntax The raw syntax to be appended
      *
-     * @return Returns query modification handler
+     * @return Modification handler
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
      * @see Modifying
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite Where Clause</a>
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-inner-join/">SQLite Inner Join</a>
      *
      */
-    protected open fun appendAndModify(syntax: String): Modifying {
-        this.appendRawSyntax(syntax)
+    open fun appendAndModify(syntax: String): Modifying {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns modification handler
         return this.modify()
     }
 
 
-    protected open fun appendAndFilter(syntax: String): Filtering {
-        this.appendRawSyntax(syntax)
+    /**
+     * Appends a raw syntax and starts filtering process.
+     *
+     * Note:
+     * This method calls SQLiteQueryBuilder.append(...) to append the raw syntax.
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
+     *
+     * @param syntax The raw syntax to be appended
+     *
+     * @return Filtering handler
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
+     * @see Filtering
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite Where Clause</a>
+     *
+     */
+    open fun appendAndFilter(syntax: String): Filtering {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns filtering handler
         return this.filter()
     }
 
 
-    protected open fun appendAndMerge(syntax: String): Merging {
-        this.appendRawSyntax(syntax)
+    /**
+     * Appends a raw syntax and starts merging process.
+     *
+     * Note:
+     * This method calls SQLiteQueryBuilder.append(...) to append the raw syntax.
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
+     *
+     * @param syntax The raw syntax to be appended
+     *
+     * @return Merging handler
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
+     * @see Merging
+     * @see <a href="https://www.tutorialspoint.com/sqlite/sqlite_and_or_clauses.htm">SQLite AND/OR Operators</a>
+     *
+     */
+    open fun appendAndMerge(syntax: String): Merging {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns merging handler
         return this.merge()
     }
 
-    protected open fun appendAndSort(syntax: String): Sorting {
-        this.appendRawSyntax(syntax)
+
+    /**
+     * Appends a raw syntax and starts sorting process.
+     *
+     * Note:
+     * This method calls SQLiteQueryBuilder.append(...) to append the raw syntax.
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
+     *
+     * @param syntax The raw syntax to be appended
+     *
+     * @return Sorting handler
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
+     * @see Sorting
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-order-by/">SQLite Ordering syntax</a>
+     *
+     */
+    open fun appendAndSort(syntax: String): Sorting {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns merging handler
         return this.sort()
     }
 
-    protected open fun appendAndSubSort(syntax: String): SubSorting {
-        this.appendRawSyntax(syntax)
+
+    /**
+     * Appends a raw syntax and starts sub-sorting process.
+     *
+     * Note:
+     * This method calls SQLiteQueryBuilder.append(...) to append the raw syntax.
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
+     *
+     * @param syntax The raw syntax to be appended
+     *
+     * @return SubSorting handler
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
+     * @see SubSorting
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-order-by/">SQLite Ordering syntax</a>
+     *
+     */
+    open fun appendAndSubSort(syntax: String): SubSorting {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns merging handler
         return this.subSort()
     }
 
-    protected open fun appendAndQuantify(syntax: String): Quantifying {
-        this.appendRawSyntax(syntax)
+
+    /**
+     * Appends a raw syntax and starts quantifying process.
+     *
+     * Note:
+     * This method calls SQLiteQueryBuilder.append(...) to append the raw syntax.
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
+     *
+     * @param syntax The raw syntax to be appended
+     *
+     * @return Quantifying handler
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
+     * @see Quantifying
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-limit/">SQLite Limiting syntax</a>
+     *
+     */
+    open fun appendAndQuantify(syntax: String): Quantifying {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns merging handler
         return this.quantify()
     }
 
-    protected open fun appendAndSkip(syntax: String): Skipping {
-        this.appendRawSyntax(syntax)
+
+    /**
+     * Appends a raw syntax and starts skipping process.
+     *
+     * Note:
+     * This method calls SQLiteQueryBuilder.append(...) to append the raw syntax.
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
+     *
+     * @param syntax The raw syntax to be appended
+     *
+     * @return Skipping handler
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
+     * @see Skipping
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-limit/">SQLite Offset syntax</a>
+     *
+     */
+    open fun appendAndSkip(syntax: String): Skipping {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns merging handler
         return this.skip()
     }
 
+
+    /**
+     * Handles building the final query as a raw string and limits syntax errors by limiting the amount of methods that can be called.
+     * @see <a href="https://www.sqlite.org/lang.html">SQLite Syntax</a>
+     * @see InnerBuilder.build
+     *
+     */
     open inner class InnerBuilder internal constructor() : Resetting() {
+
+
+        /**
+         * Builds the query and returns a raw form as a String.
+         *
+         * @param appendCloser Decides whether to append a semicolon at the end or not.
+         *
+         * @return raw form of the query as a String.
+         * @see <a href="https://www.sqlite.org/lang.html">SQLite Syntax</a>
+         * @see SQLiteSyntax.CLOSER
+         *
+         */
         fun build(appendCloser: Boolean = true): String {
+            //Gets the raw query builder instance from the parent class
             val rawQueryBuilder = this@SQLiteQueryBuilder.rawQueryBuilder
+
+            //If appendCloser is true, a semicolon is appended
             if (appendCloser) rawQueryBuilder.append(CLOSER)
+
+            //Converts the raw query builder to a string and returns its value
             return rawQueryBuilder.toString()
         }
+
+
     }
 
+
+    /**
+     * Handles resetting the query building process and limits syntax errors by limiting the amount of methods that can be called.
+     * @see <a href="https://www.sqlite.org/lang.html">SQLite Syntax</a>
+     * @see Resetting.reset
+     *
+     */
     open inner class Resetting internal constructor() {
+
+
+        /**
+         * Clears query build progress and restarts from zero.
+         *
+         * @return The current query-builder instance.
+         *
+         * @see <a href="https://www.sqlite.org/lang.html">SQLite Syntax</a>
+         *
+         */
         fun reset(): SQLiteQueryBuilder {
             this@SQLiteQueryBuilder.rawQueryBuilder.clear()
             return this@SQLiteQueryBuilder
         }
     }
+
 
     /**
      * Handles building a selection query and limits syntax errors by limiting the amount of methods that can be called
@@ -223,7 +445,7 @@ open class SQLiteQueryBuilder {
      * Handles query modification such as logical statements, joints, direction etc..
      *
      */
-    open inner class Modifying internal constructor() : InnerBuilder() {
+    open inner class Modifying internal constructor() : Sorting() {
 
 
         /**
@@ -232,7 +454,7 @@ open class SQLiteQueryBuilder {
          *
          * @param column The column to be filtered by
          *
-         * @return Returns where clause building handler
+         * @return Returns filtering handler
          * @see Filtering
          *
          */
@@ -242,18 +464,21 @@ open class SQLiteQueryBuilder {
             return this@SQLiteQueryBuilder.appendAndFilter(whereClauseSyntax)
         }
 
+
+        /**
+         * Adds an inner-join (relation between tables) to the query to return elements that have relation by specific columns
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-inner-join/">SQLite 'SELECT * FROM table INNER JOIN table2 ON table2.parentId = table.id' expression</a>
+         *
+         * @param tableName The second table that has a relationship with the first table
+         *
+         * @return Returns where clause building handler
+         * @see Filtering
+         *
+         */
         open fun innerJoin(tableName: String): Filtering {
             require(tableName.isNotBlank())
             val innerJoinSyntax = "$INNER_JOIN $tableName $ON"
             return this@SQLiteQueryBuilder.appendAndFilter(innerJoinSyntax)
-        }
-
-        open fun orderBy(column: String) {
-
-        }
-
-        open fun limit(limit: Long) {
-
         }
 
 
@@ -261,23 +486,29 @@ open class SQLiteQueryBuilder {
 
     open inner class Filtering internal constructor() : Resetting() {
 
-        fun equalTo(value: Any): Merging
-            = this.whereClause(EQUAL_TO, value)
+        fun equalTo(value: Any): Merging {
+            return this.whereClause(EQUAL_TO, value)
+        }
 
-        fun notEqualTo(value: Any): Merging
-            = this.whereClause(NOT_EQUAL_TO, value)
+        fun notEqualTo(value: Any): Merging {
+            return this.whereClause(NOT_EQUAL_TO, value)
+        }
 
-        fun lessThan(value: Any): Merging
-            = this.whereClause(LESS_THAN, value)
+        fun lessThan(value: Any): Merging {
+            return this.whereClause(LESS_THAN, value)
+        }
 
-        fun greaterThan(value: Any): Merging
-            = this.whereClause(GREATER_THAN, value)
+        fun greaterThan(value: Any): Merging {
+            return this.whereClause(GREATER_THAN, value)
+        }
 
-        fun lessOrEqualTo(value: Any): Merging
-            = this.whereClause(LESS_THAN_OR_EQUAL_TO, value)
+        fun lessOrEqualTo(value: Any): Merging {
+            return this.whereClause(LESS_THAN_OR_EQUAL_TO, value)
+        }
 
-        fun greaterOrEqualTo(value: Any): Merging
-            = this.whereClause(GREATER_THAN_OR_EQUAL_TO, value)
+        fun greaterOrEqualTo(value: Any): Merging {
+            return this.whereClause(GREATER_THAN_OR_EQUAL_TO, value)
+        }
 
         fun containedIn(values: Array<Any>): Merging {
             require(values.isNotEmpty())
@@ -357,11 +588,15 @@ open class SQLiteQueryBuilder {
 
     open inner class Merging internal constructor() : Sorting() {
 
-        fun and(field: String): Filtering
-            = this@SQLiteQueryBuilder.appendAndFilter(AND)
+        fun and(column: String): Filtering {
+            val andSyntax = "$AND $column"
+            return this@SQLiteQueryBuilder.appendAndFilter(andSyntax)
+        }
 
-        fun or(field: String): Filtering
-            = this@SQLiteQueryBuilder.appendAndFilter(OR)
+        fun or(column: String): Filtering {
+            val orSyntax = "$OR $column"
+            return this@SQLiteQueryBuilder.appendAndFilter(orSyntax)
+        }
 
     }
 
@@ -390,17 +625,17 @@ open class SQLiteQueryBuilder {
 
         fun andOrderBy(field: String, direction: SQLiteQueryDirection = SQLiteQueryDirection.ASCENDING): SubSorting = this.apply {
             val andOrderBySyntax = "$ELEMENT_SEPARATOR $field ${direction.rawValue}"
-            this@SQLiteQueryBuilder.appendRawSyntax(andOrderBySyntax)
+            this@SQLiteQueryBuilder.append(andOrderBySyntax)
         }
 
         fun andOrderNullsLast(column: String): SubSorting = this.apply {
             val orderNullsLastSyntax = "$ELEMENT_SEPARATOR $column $NULLS_LAST"
-            this@SQLiteQueryBuilder.appendRawSyntax(orderNullsLastSyntax)
+            this@SQLiteQueryBuilder.append(orderNullsLastSyntax)
         }
 
         fun andOrderNullsFirst(column: String): SubSorting = this.apply {
             val orderNullsLastSyntax = "$ELEMENT_SEPARATOR $column $NULLS_FIRST"
-            this@SQLiteQueryBuilder.appendRawSyntax(orderNullsLastSyntax)
+            this@SQLiteQueryBuilder.append(orderNullsLastSyntax)
         }
 
     }
@@ -420,7 +655,7 @@ open class SQLiteQueryBuilder {
 
         fun offset(offset: Number): InnerBuilder = this.apply {
             val offsetSyntax = "$OFFSET $offset"
-            this@SQLiteQueryBuilder.appendRawSyntax(offsetSyntax)
+            this@SQLiteQueryBuilder.append(offsetSyntax)
         }
 
     }

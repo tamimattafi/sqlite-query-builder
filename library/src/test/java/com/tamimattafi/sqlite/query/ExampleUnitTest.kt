@@ -29,12 +29,6 @@ class ExampleUnitTest {
                 .andOrderNullsLast("fatherName")
                 .limit(20)
                 .offset(10)
-                .reset()
-                .select()
-                .all()
-                .fromTable("users")
-                .where("age")
-                .between(12, 18)
                 .build()
 
         print(rawQuery)
