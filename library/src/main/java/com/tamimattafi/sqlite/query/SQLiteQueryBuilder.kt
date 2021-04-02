@@ -52,6 +52,7 @@ open class SQLiteQueryBuilder {
     protected open var modifying: WeakReference<Modifying>? = null
     protected open var sourceSelection: WeakReference<Source>? = null
     protected open var filtering: WeakReference<Filtering>? = null
+    protected open var joining: WeakReference<Joining>? = null
     protected open var merging: WeakReference<Merging>? = null
     protected open var sorting: WeakReference<Sorting>? = null
     protected open var subSorting: WeakReference<SubSorting>? = null
@@ -65,7 +66,7 @@ open class SQLiteQueryBuilder {
      * @return Selection type handler
      *
      * @see Selecting
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite Selection Syntax</a>
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite selection syntax</a>
      *
      */
     open fun select(): Selecting {
@@ -90,7 +91,7 @@ open class SQLiteQueryBuilder {
      *
      * @exception IllegalArgumentException if the syntax is empty.
      *
-     * @see <a href="https://www.sqlite.org/lang.html">SQLite Syntax</a>
+     * @see <a href="https://www.sqlite.org/lang.html">SQLite syntax</a>
      *
      */
     open fun append(syntax: String) = this.apply {
@@ -118,7 +119,7 @@ open class SQLiteQueryBuilder {
      *
      * @see Source
      * @see append
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite Selection Syntax</a>
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite selection syntax</a>
      *
      */
     open fun appendAndSelectSource(syntax: String): Source {
@@ -146,7 +147,7 @@ open class SQLiteQueryBuilder {
      *
      * @see Modifying
      * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite Where Clause</a>
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-inner-join/">SQLite Inner Join</a>
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-inner-join/">SQLite inner join syntax</a>
      *
      */
     open fun appendAndModify(syntax: String): Modifying {
@@ -173,7 +174,7 @@ open class SQLiteQueryBuilder {
      * @exception IllegalArgumentException if the syntax is empty.
      *
      * @see Filtering
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite Where Clause</a>
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where Clause syntax</a>
      *
      */
     open fun appendAndFilter(syntax: String): Filtering {
@@ -182,6 +183,14 @@ open class SQLiteQueryBuilder {
 
         //Creates (Lazy) and returns filtering handler
         return this.filter()
+    }
+
+    open fun appendAndJoin(syntax: String): Joining {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns joining handler
+        return this.join()
     }
 
 
@@ -200,7 +209,7 @@ open class SQLiteQueryBuilder {
      * @exception IllegalArgumentException if the syntax is empty.
      *
      * @see Merging
-     * @see <a href="https://www.tutorialspoint.com/sqlite/sqlite_and_or_clauses.htm">SQLite AND/OR Operators</a>
+     * @see <a href="https://www.tutorialspoint.com/sqlite/sqlite_and_or_clauses.htm">SQLite merge operators syntax</a>
      *
      */
     open fun appendAndMerge(syntax: String): Merging {
@@ -227,7 +236,7 @@ open class SQLiteQueryBuilder {
      * @exception IllegalArgumentException if the syntax is empty.
      *
      * @see Sorting
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-order-by/">SQLite Ordering syntax</a>
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-order-by/">SQLite sorting syntax</a>
      *
      */
     open fun appendAndSort(syntax: String): Sorting {
@@ -254,7 +263,7 @@ open class SQLiteQueryBuilder {
      * @exception IllegalArgumentException if the syntax is empty.
      *
      * @see SubSorting
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-order-by/">SQLite Ordering syntax</a>
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-order-by/">SQLite sorting syntax</a>
      *
      */
     open fun appendAndSubSort(syntax: String): SubSorting {
@@ -281,7 +290,7 @@ open class SQLiteQueryBuilder {
      * @exception IllegalArgumentException if the syntax is empty.
      *
      * @see Quantifying
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-limit/">SQLite Limiting syntax</a>
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-limit/">SQLite limits syntax</a>
      *
      */
     open fun appendAndQuantify(syntax: String): Quantifying {
@@ -308,7 +317,7 @@ open class SQLiteQueryBuilder {
      * @exception IllegalArgumentException if the syntax is empty.
      *
      * @see Skipping
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-limit/">SQLite Offset syntax</a>
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-limit/">SQLite offset syntax</a>
      *
      */
     open fun appendAndSkip(syntax: String): Skipping {
@@ -322,7 +331,8 @@ open class SQLiteQueryBuilder {
 
     /**
      * Handles building the final query as a raw string and limits syntax errors by limiting the amount of methods that can be called.
-     * @see <a href="https://www.sqlite.org/lang.html">SQLite Syntax</a>
+     * @see <a href="https://www.sqlite.org/lang.html">SQLite syntax</a>
+     *
      * @see InnerBuilder.build
      *
      */
@@ -335,7 +345,7 @@ open class SQLiteQueryBuilder {
          * @param appendCloser Decides whether to append a semicolon at the end or not.
          *
          * @return raw form of the query as a String.
-         * @see <a href="https://www.sqlite.org/lang.html">SQLite Syntax</a>
+         * @see <a href="https://www.sqlite.org/lang.html">SQLite syntax</a>
          * @see SQLiteSyntax.CLOSER
          *
          */
@@ -356,7 +366,8 @@ open class SQLiteQueryBuilder {
 
     /**
      * Handles resetting the query building process and limits syntax errors by limiting the amount of methods that can be called.
-     * @see <a href="https://www.sqlite.org/lang.html">SQLite Syntax</a>
+     * @see <a href="https://www.sqlite.org/lang.html">SQLite syntax</a>
+     *
      * @see Resetting.reset
      *
      */
@@ -372,24 +383,31 @@ open class SQLiteQueryBuilder {
          *
          */
         fun reset(): SQLiteQueryBuilder {
+            //Clears the raw query builder
             this@SQLiteQueryBuilder.rawQueryBuilder.clear()
+
+            //Returns the current query-builder instance.
             return this@SQLiteQueryBuilder
         }
+
     }
 
 
     /**
-     * Handles building a selection query and limits syntax errors by limiting the amount of methods that can be called
-     * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite SELECT keyword</a>
-     * @see select
+     * Handles building a selection query and limits syntax errors by limiting the amount of methods that can be called.
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite selection syntax</a>
+     *
+     * @see Selecting.all
+     * @see Selecting.distinct
+     * @see Selecting.columns
      *
      */
     open inner class Selecting internal constructor() : Resetting() {
 
 
         /**
-         * Creates a selection query that will return all columns of a table
-         * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite 'SELECT *' expression</a>
+         * Creates a selection query that will return all columns of a table.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite selection syntax</a>
          *
          * @return Returns selection source handler
          * @see Source
@@ -400,40 +418,54 @@ open class SQLiteQueryBuilder {
 
 
         /**
-         * Creates a selection query that will return some columns in a distinct way
-         * @see <a href="https://www.sqlitetutorial.net/sqlite-select-distinct/">SQLite 'SELECT DISTINCT column1, column2' expression</a>
+         * Creates a selection query that will return some columns in a distinct way.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-select-distinct/">SQLite distinct selection syntax</a>
          *
          * @param columns The columns that should be returned by the query
          *
-         * @return Returns selection source handler
+         * @return Query source selection handler
          * @see Source
          *
          */
         open fun distinct(columns: Array<String>? = null): Source {
+            //Prepares distinct syntax depending on the given columns
             val distinctSyntax = if (columns.isNullOrEmpty()) {
+                //Initializes distinctSyntax with DISTINCT keyword without specifying columns
                 DISTINCT
             } else {
+                //Converts columns list to SQLite elements representation such as column1, column2 etc..
                 val columnsSyntax = columns.toSQLiteElements()
+
+                //Initializes distinctSyntax with DISTINCT keyword and specifies columns
                 "$DISTINCT $columnsSyntax"
             }
 
+            //Appends distinct syntax and switches to source selection
             return this@SQLiteQueryBuilder.appendAndSelectSource(distinctSyntax)
         }
 
 
         /**
-         * Creates a selection query that will return some columns
-         * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite 'SELECT column1, column2' expression</a>
+         * Creates a selection query that will return some columns.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-select/">SQLite column selection syntax</a>
          *
          * @param columns The columns that should be returned by the query
          *
-         * @return Returns selection source handler
+         * @return Query source selection handler
+         *
+         * @throws IllegalArgumentException if columns array is empty
+         *
          * @see Source
          *
          */
         open fun columns(columns: Array<String>): Source {
+            //Asserts that columns array is not empty
             require(columns.isNotEmpty())
+
+            //Converts columns list to SQLite elements representation such as column1, column2 etc..
             val columnsSyntax = columns.toSQLiteElements()
+
+            //Appends columns selection syntax and switches to source selection
             return this@SQLiteQueryBuilder.appendAndSelectSource(columnsSyntax)
         }
 
@@ -442,32 +474,41 @@ open class SQLiteQueryBuilder {
 
 
     /**
-     * Handles query modification such as logical statements, joints, direction etc..
+     * Handles query modification such as logical statements and joints and limits syntax errors by limiting the amount of methods that can be called.
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">Logical statements syntax</a>
+     *
+     * @see Modifying.where
+     * @see Modifying.innerJoin
      *
      */
     open inner class Modifying internal constructor() : Sorting() {
 
 
         /**
-         * Adds a where-clause (condition) to the query to filter by a specific column of the selected table
-         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite 'SELECT * FROM table WHERE (condition)' expression</a>
+         * Adds a where-clause (condition) to the query to filter by a specific column of the selected table.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
          *
          * @param column The column to be filtered by
          *
-         * @return Returns filtering handler
+         * @return Query filtering handler
          * @see Filtering
          *
          */
         open fun where(column: String): Filtering {
+            //Asserts that column name is not empty or blank
             require(column.isNotBlank())
+
+            //Creates where clause syntax with the given column
             val whereClauseSyntax = "$WHERE $column"
+
+            //Appends where clause syntax and switches to filtering
             return this@SQLiteQueryBuilder.appendAndFilter(whereClauseSyntax)
         }
 
 
         /**
          * Adds an inner-join (relation between tables) to the query to return elements that have relation by specific columns
-         * @see <a href="https://www.sqlitetutorial.net/sqlite-inner-join/">SQLite 'SELECT * FROM table INNER JOIN table2 ON table2.parentId = table.id' expression</a>
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-inner-join/">SQLite inner-join syntax</a>
          *
          * @param tableName The second table that has a relationship with the first table
          *
@@ -476,96 +517,321 @@ open class SQLiteQueryBuilder {
          *
          */
         open fun innerJoin(tableName: String): Filtering {
+            //Asserts that table name is not empty or blank
             require(tableName.isNotBlank())
+
+            //Creates inner join syntax using the given table name
             val innerJoinSyntax = "$INNER_JOIN $tableName $ON"
+
+            //Appends inner join syntax and switches to query joining
             return this@SQLiteQueryBuilder.appendAndFilter(innerJoinSyntax)
         }
 
 
     }
 
+
+    /**
+     * Handles query filtering using equations, ranges etc.. and limits syntax errors by limiting the amount of methods that can be called.
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+     *
+     * @see Filtering.equalTo
+     * @see Filtering.notEqualTo
+     * @see Filtering.lessThan
+     * @see Filtering.greaterThan
+     * @see Filtering.lessOrEqualTo
+     * @see Filtering.greaterOrEqualTo
+     * @see Filtering.containedIn
+     * @see Filtering.notContainedIn
+     * @see Filtering.containedInSubQuery
+     * @see Filtering.notContainedInSubQuery
+     * @see Filtering.exists
+     * @see Filtering.notExists
+     *
+     */
     open inner class Filtering internal constructor() : Resetting() {
 
+
+        /**
+         * Appends equality operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun equalTo(value: Any): Merging {
-            return this.whereClause(EQUAL_TO, value)
+            //Appends equality operation syntax and returns merging handler
+            return this.appendLogicalOperation(EQUAL_TO, value)
         }
 
+
+        /**
+         * Appends non-equality operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun notEqualTo(value: Any): Merging {
-            return this.whereClause(NOT_EQUAL_TO, value)
+            //Appends non-equality operation syntax and returns merging handler
+            return this.appendLogicalOperation(NOT_EQUAL_TO, value)
         }
 
+
+        /**
+         * Appends non-priority operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun lessThan(value: Any): Merging {
-            return this.whereClause(LESS_THAN, value)
+            //Appends non-priority operation syntax and returns merging handler
+            return this.appendLogicalOperation(LESS_THAN, value)
         }
 
+
+        /**
+         * Appends priority operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun greaterThan(value: Any): Merging {
-            return this.whereClause(GREATER_THAN, value)
+            //Appends priority operation syntax and returns merging handler
+            return this.appendLogicalOperation(GREATER_THAN, value)
         }
 
+
+        /**
+         * Appends equality or non-priority operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun lessOrEqualTo(value: Any): Merging {
-            return this.whereClause(LESS_THAN_OR_EQUAL_TO, value)
+            //Appends equality or non-priority operation syntax and returns merging handler
+            return this.appendLogicalOperation(LESS_THAN_OR_EQUAL_TO, value)
         }
 
+
+        /**
+         * Appends equality or priority operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun greaterOrEqualTo(value: Any): Merging {
-            return this.whereClause(GREATER_THAN_OR_EQUAL_TO, value)
+            //Appends equality or priority operation syntax and returns merging handler
+            return this.appendLogicalOperation(GREATER_THAN_OR_EQUAL_TO, value)
         }
 
+
+        /**
+         * Appends containing operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param values Values list that will be checked whether it contains the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun containedIn(values: Array<Any>): Merging {
+            //Asserts that the given list of values is not empty
             require(values.isNotEmpty())
+
+            //Converts values list to SQLite elements representation such as value1, value2 etc..
             val valuesSyntax = values.toContainedSQLiteElements()
-            return whereClause(IN, valuesSyntax)
+
+            //Appends containing operation syntax and returns merging handler
+            return this.appendLogicalOperation(IN, valuesSyntax)
         }
 
+
+        /**
+         * Appends non-containing operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param values Values list that will be checked whether it doesn't contain the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun notContainedIn(values: Array<Any>): Merging {
+            //Asserts that the given list of values is not empty
             require(values.isNotEmpty())
+
+            //Converts values list to SQLite elements representation such as value1, value2 etc..
             val valuesSyntax = values.toContainedSQLiteElements()
+
+            //Creates non-containing operation syntax
             val notInSyntax = "$NOT $IN"
-            return whereClause(notInSyntax, valuesSyntax)
+
+            //Appends non-containing operation syntax and returns merging handler
+            return this.appendLogicalOperation(notInSyntax, valuesSyntax)
         }
 
+
+        /**
+         * Appends containing operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param subQuery The query that returns a list result which will be checked whether it contain the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun containedInSubQuery(subQuery: String): Merging {
+            //Asserts that the given subQuery is not blank or empty
             require(subQuery.isNotBlank())
+
+            //Creates subQuery syntax using the given value
             val subQuerySyntax = "$OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
-            return whereClause(IN, subQuerySyntax)
+
+            //Appends containing operation syntax and returns merging handler
+            return this.appendLogicalOperation(IN, subQuerySyntax)
         }
 
+
+        /**
+         * Appends non-containing operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param subQuery The query that returns a list result which will be checked whether it doesn't contain the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun notContainedInSubQuery(subQuery: String): Merging {
+            //Asserts that the given subQuery is not blank or empty
             require(subQuery.isNotBlank())
+
+            //Creates subQuery syntax using the given value
             val subQuerySyntax = "$OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
+
+            //Creates non-containing operation syntax
             val notInSyntax = "$NOT $IN"
-            return whereClause(notInSyntax, subQuerySyntax)
+
+            //Appends non-containing operation syntax and returns merging handler
+            return this.appendLogicalOperation(notInSyntax, subQuerySyntax)
         }
 
-        fun like(value: Any): Merging
-            = this.whereClause(LIKE, value)
 
+        /**
+         * Appends search operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be matched with the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
+        fun like(value: Any): Merging {
+            //Appends search operation syntax and returns merging handler
+            return this.appendLogicalOperation(LIKE, value)
+        }
+
+
+        /**
+         * Appends reversed-search operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that should not be matched with the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun notLike(value: Any): Merging {
+            //Creates reversed search operation syntax
             val notLikeSyntax = "$NOT $LIKE"
-            return this.whereClause(notLikeSyntax, value)
+
+            //Appends reversed-search operation syntax and returns merging handler
+            return this.appendLogicalOperation(notLikeSyntax, value)
         }
 
+
+        /**
+         * Appends existence operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param subQuery The query that will be checked for existence of the the given column
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun exists(subQuery: String): Merging {
+            //Asserts that the given subQuery is not blank or empty
             require(subQuery.isNotBlank())
+
+            //Creates subQuery syntax using the given value
             val subQuerySyntax = "$OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
-            return this.whereClause(EXISTS, subQuerySyntax)
+
+            //Appends existence operation syntax and returns merging handler
+            return this.appendLogicalOperation(EXISTS, subQuerySyntax)
         }
 
+
+        /**
+         * Appends non-existence operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param subQuery The query that will be checked for non-existence of the the given column
+         *
+         * @return Query statements merging handler
+         * @see Merging
+         *
+         */
         fun notExists(subQuery: String): Merging {
+            //Asserts that the given subQuery is not blank or empty
             require(subQuery.isNotBlank())
+
+            //Creates subQuery syntax using the given value
             val subQuerySyntax = "$OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
+
+            //Creates non-existence query syntax
             val notExistsSyntax = "$NOT $EXISTS"
-            return this.whereClause(notExistsSyntax, subQuerySyntax)
+
+            //Appends existence operation syntax and returns merging handler
+            return this.appendLogicalOperation(notExistsSyntax, subQuerySyntax)
         }
 
         fun between(firstValue: Any, secondValue: Any): Merging {
             val rangeSyntax = "$firstValue $AND $secondValue"
-            return this.whereClause(BETWEEN, rangeSyntax)
+            return this.appendLogicalOperation(BETWEEN, rangeSyntax)
         }
 
         fun notBetween(firstValue: Any, secondValue: Any): Merging {
             val rangeSyntax = "$firstValue $AND $secondValue"
             val notBetweenSyntax = "$NOT $BETWEEN"
-            return this.whereClause(notBetweenSyntax, rangeSyntax)
+            return this.appendLogicalOperation(notBetweenSyntax, rangeSyntax)
         }
 
         fun isNull(): Merging {
@@ -578,13 +844,16 @@ open class SQLiteQueryBuilder {
             return this@SQLiteQueryBuilder.appendAndMerge(isNotNullSyntax)
         }
 
-        protected open fun whereClause(operator: String, value: Any): Merging {
+        protected open fun appendLogicalOperation(operator: String, value: Any): Merging {
             val whereClauseSyntax = "$operator $value"
             return this@SQLiteQueryBuilder.appendAndMerge(whereClauseSyntax)
         }
 
     }
 
+    open inner class Joining internal constructor() : Resetting() {
+
+    }
 
     open inner class Merging internal constructor() : Sorting() {
 
@@ -752,6 +1021,18 @@ open class SQLiteQueryBuilder {
         }
 
         return filtering
+    }
+
+
+    protected open fun join(): Joining {
+        var joining = this.joining?.get()
+
+        if (joining == null) {
+            joining = Joining()
+            this.joining = WeakReference(joining)
+        }
+
+        return joining
     }
 
 
