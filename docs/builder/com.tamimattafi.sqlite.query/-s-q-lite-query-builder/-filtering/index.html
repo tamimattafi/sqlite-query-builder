@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Filtering</title>
+    <link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async="async"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../../index.html">
+                    <span>builder</span>
+            </a>
+    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="builder::com.tamimattafi.sqlite.query/SQLiteQueryBuilder.Filtering///PointingToDeclaration//-932100688">
+  <div class="breadcrumbs"><a href="../../../../index.html">builder</a><span class="delimiter">/</span><a href="../../index.html">com.tamimattafi.sqlite.query</a><span class="delimiter">/</span><a href="../index.html">SQLiteQueryBuilder</a><span class="delimiter">/</span><a href="index.html">Filtering</a></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Filtering</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">inner </span><span class="token keyword">class </span><a href="index.html">Filtering</a> : <a href="../-resetting/index.html">SQLiteQueryBuilder.Resetting</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Handles query filtering using equations, ranges etc.. and limits syntax errors by limiting the amount of methods that can be called.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="See also">See also</button></div>
+    <div class="tabs-section-body">
+      <h2 class="">See also</h2>
+      <div data-togglable="See also">
+        <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="See also"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div data-togglable="See also"><div class="table" data-togglable="See also"><div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div></div></span></div><div><div class="title"><div data-togglable="See also"><p class="paragraph"><a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a></p></div></div></div></div></div><div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><a href="not-exists.html"><span>com.</span><wbr></wbr><span>tamimattafi.</span><wbr></wbr><span>sqlite.</span><wbr></wbr><span>query.</span><wbr></wbr><span>SQLite</span><wbr></wbr><span>Query</span><wbr></wbr><span>Builder.</span><wbr></wbr><span>Filtering</span></a></div></span></div><div><div class="title"><div data-togglable="See also"></div></div></div></div></div></div></div></div></div>
+      </div>
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="1862798443%2FFunctions%2F-932100688" anchor-label="between" id="1862798443%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="between.html"><span><span>between</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1862798443%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="between.html"><span class="token function">between</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">firstValue<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter ">secondValue<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="207436341%2FFunctions%2F-932100688" anchor-label="containedIn" id="207436341%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="contained-in.html"><span>contained</span><wbr></wbr><span><span>In</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="207436341%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="contained-in.html"><span class="token function">containedIn</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">values<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends containing operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-76057528%2FFunctions%2F-932100688" anchor-label="containedInSubQuery" id="-76057528%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="contained-in-sub-query.html"><span>contained</span><wbr></wbr><span>In</span><wbr></wbr><span>Sub</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-76057528%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="contained-in-sub-query.html"><span class="token function">containedInSubQuery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">subQuery<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends containing operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2105120498%2FFunctions%2F-932100688" anchor-label="equalTo" id="-2105120498%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="equal-to.html"><span>equal</span><wbr></wbr><span><span>To</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2105120498%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="equal-to.html"><span class="token function">equalTo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends equality operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-563984958%2FFunctions%2F-932100688" anchor-label="exists" id="-563984958%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="exists.html"><span><span>exists</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-563984958%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="exists.html"><span class="token function">exists</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">subQuery<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends existence operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1392212941%2FFunctions%2F-932100688" anchor-label="greaterOrEqualTo" id="1392212941%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="greater-or-equal-to.html"><span>greater</span><wbr></wbr><span>Or</span><wbr></wbr><span>Equal</span><wbr></wbr><span><span>To</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1392212941%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="greater-or-equal-to.html"><span class="token function">greaterOrEqualTo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends equality or priority operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1602510370%2FFunctions%2F-932100688" anchor-label="greaterThan" id="1602510370%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="greater-than.html"><span>greater</span><wbr></wbr><span><span>Than</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1602510370%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="greater-than.html"><span class="token function">greaterThan</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends priority operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1196644340%2FFunctions%2F-932100688" anchor-label="isNotNull" id="-1196644340%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="is-not-null.html"><span>is</span><wbr></wbr><span>Not</span><wbr></wbr><span><span>Null</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1196644340%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="is-not-null.html"><span class="token function">isNotNull</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="2001460909%2FFunctions%2F-932100688" anchor-label="isNull" id="2001460909%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="is-null.html"><span>is</span><wbr></wbr><span><span>Null</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2001460909%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="is-null.html"><span class="token function">isNull</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-670928822%2FFunctions%2F-932100688" anchor-label="lessOrEqualTo" id="-670928822%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="less-or-equal-to.html"><span>less</span><wbr></wbr><span>Or</span><wbr></wbr><span>Equal</span><wbr></wbr><span><span>To</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-670928822%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="less-or-equal-to.html"><span class="token function">lessOrEqualTo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends equality or non-priority operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="795594629%2FFunctions%2F-932100688" anchor-label="lessThan" id="795594629%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="less-than.html"><span>less</span><wbr></wbr><span><span>Than</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="795594629%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="less-than.html"><span class="token function">lessThan</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends non-priority operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1578768856%2FFunctions%2F-932100688" anchor-label="like" id="-1578768856%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="like.html"><span><span>like</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1578768856%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="like.html"><span class="token function">like</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends search operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-26733066%2FFunctions%2F-932100688" anchor-label="notBetween" id="-26733066%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="not-between.html"><span>not</span><wbr></wbr><span><span>Between</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-26733066%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="not-between.html"><span class="token function">notBetween</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">firstValue<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter ">secondValue<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1026265526%2FFunctions%2F-932100688" anchor-label="notContainedIn" id="-1026265526%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="not-contained-in.html"><span>not</span><wbr></wbr><span>Contained</span><wbr></wbr><span><span>In</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1026265526%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="not-contained-in.html"><span class="token function">notContainedIn</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">values<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends non-containing operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1632747603%2FFunctions%2F-932100688" anchor-label="notContainedInSubQuery" id="1632747603%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="not-contained-in-sub-query.html"><span>not</span><wbr></wbr><span>Contained</span><wbr></wbr><span>In</span><wbr></wbr><span>Sub</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1632747603%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="not-contained-in-sub-query.html"><span class="token function">notContainedInSubQuery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">subQuery<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends non-containing operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1449977955%2FFunctions%2F-932100688" anchor-label="notEqualTo" id="1449977955%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="not-equal-to.html"><span>not</span><wbr></wbr><span>Equal</span><wbr></wbr><span><span>To</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1449977955%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="not-equal-to.html"><span class="token function">notEqualTo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends non-equality operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1386628055%2FFunctions%2F-932100688" anchor-label="notExists" id="1386628055%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="not-exists.html"><span>not</span><wbr></wbr><span><span>Exists</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1386628055%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="not-exists.html"><span class="token function">notExists</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">subQuery<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends non-existence operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-314134797%2FFunctions%2F-932100688" anchor-label="notLike" id="-314134797%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="not-like.html"><span>not</span><wbr></wbr><span><span>Like</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-314134797%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="not-like.html"><span class="token function">notLike</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-merging/index.html">SQLiteQueryBuilder.Merging</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Appends reversed-search operation to where clause.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="2029065178%2FFunctions%2F-932100688" anchor-label="reset" id="2029065178%2FFunctions%2F-932100688" data-filterable-set=":builder:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":builder:dokkaHtml/main" data-filterable-set=":builder:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-resetting/reset.html"><span><span>reset</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2029065178%2FFunctions%2F-932100688"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":builder:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-resetting/reset.html"><span class="token function">reset</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">SQLiteQueryBuilder</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Clears query build progress and restarts from zero.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
