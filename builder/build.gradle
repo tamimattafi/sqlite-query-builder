@@ -9,8 +9,11 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-
 tasks.named("dokkaHtml") {
     def outputDir = new File(projectDir.parent + "/docs")
     outputDirectory.set(outputDir)
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.1'
 }

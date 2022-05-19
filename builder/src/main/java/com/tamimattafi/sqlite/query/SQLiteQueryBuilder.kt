@@ -1,5 +1,6 @@
 package com.tamimattafi.sqlite.query
 
+import com.sun.org.apache.xpath.internal.operations.Mod
 import com.tamimattafi.sqlite.query.SQLiteOperators.BETWEEN
 import com.tamimattafi.sqlite.query.SQLiteOperators.GREATER_THAN_OR_EQUAL_TO
 import com.tamimattafi.sqlite.query.SQLiteOperators.GREATER_THAN
@@ -365,6 +366,8 @@ open class SQLiteQueryBuilder {
             //Gets the raw query builder instance from the parent class
             val rawQueryBuilder = this@SQLiteQueryBuilder.rawQueryBuilder
 
+            rawQueryBuilder.trimToSize()
+
             //If appendCloser is true, a semicolon is appended
             if (appendCloser) rawQueryBuilder.append(CLOSER)
 
@@ -501,14 +504,23 @@ open class SQLiteQueryBuilder {
          * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
          *
          * @param column The column to be filtered by
+         * @param fallBackAction If this action is provided, it will be used instead of where if the
+         * query already has the WHERE keyword
          *
          * @return Query filtering handler
          * @see Filtering
          *
          */
-        open fun where(column: String): Filtering {
+        open fun where(
+            column: String,
+            fallBackAction: (Merging.(String) -> Filtering)? = null
+        ): Filtering {
             //Asserts that column name is not empty or blank
             require(column.isNotBlank())
+
+            if (rawQueryBuilder.contains(WHERE) && fallBackAction != null) {
+                return this@SQLiteQueryBuilder.Merging().fallBackAction(column)
+            }
 
             //Creates where clause syntax with the given column
             val whereClauseSyntax = "$WHERE $column"
