@@ -1,11 +1,10 @@
 package com.tamimattafi.sqlite.query
 
-import com.sun.org.apache.xpath.internal.operations.Mod
 import com.tamimattafi.sqlite.query.SQLiteOperators.BETWEEN
-import com.tamimattafi.sqlite.query.SQLiteOperators.GREATER_THAN_OR_EQUAL_TO
-import com.tamimattafi.sqlite.query.SQLiteOperators.GREATER_THAN
 import com.tamimattafi.sqlite.query.SQLiteOperators.EQUAL_TO
 import com.tamimattafi.sqlite.query.SQLiteOperators.EXISTS
+import com.tamimattafi.sqlite.query.SQLiteOperators.GREATER_THAN
+import com.tamimattafi.sqlite.query.SQLiteOperators.GREATER_THAN_OR_EQUAL_TO
 import com.tamimattafi.sqlite.query.SQLiteOperators.IN
 import com.tamimattafi.sqlite.query.SQLiteOperators.IS
 import com.tamimattafi.sqlite.query.SQLiteOperators.LESS_THAN
@@ -34,8 +33,6 @@ import com.tamimattafi.sqlite.query.SQLiteSyntax.ORDER_BY
 import com.tamimattafi.sqlite.query.SQLiteSyntax.SELECT
 import com.tamimattafi.sqlite.query.SQLiteSyntax.SEPARATOR
 import com.tamimattafi.sqlite.query.SQLiteSyntax.WHERE
-import java.lang.IllegalArgumentException
-import java.lang.ref.WeakReference
 
 
 open class SQLiteQueryBuilder {
@@ -427,7 +424,6 @@ open class SQLiteQueryBuilder {
          *
          */
         open fun all(): Source = this@SQLiteQueryBuilder.appendAndSelectSource(SQLiteSyntax.ALL)
-
 
 
         /**
@@ -873,9 +869,7 @@ open class SQLiteQueryBuilder {
 
     }
 
-    open inner class Joining internal constructor() : Resetting() {
-
-    }
+    open inner class Joining internal constructor() : Resetting()
 
     open inner class Merging internal constructor() : Sorting() {
 
@@ -894,7 +888,10 @@ open class SQLiteQueryBuilder {
 
     open inner class Sorting internal constructor() : Quantifying() {
 
-        fun orderBy(column: String, direction: SQLiteQueryDirection = SQLiteQueryDirection.ASCENDING): SubSorting {
+        fun orderBy(
+            column: String,
+            direction: SQLiteQueryDirection = SQLiteQueryDirection.ASCENDING
+        ): SubSorting {
             val orderBySyntax = "$ORDER_BY $column ${direction.rawValue}"
             return this@SQLiteQueryBuilder.appendAndSubSort(orderBySyntax)
         }
@@ -914,7 +911,10 @@ open class SQLiteQueryBuilder {
 
     open inner class SubSorting internal constructor() : Quantifying() {
 
-        fun andOrderBy(field: String, direction: SQLiteQueryDirection = SQLiteQueryDirection.ASCENDING): SubSorting = this.apply {
+        fun andOrderBy(
+            field: String,
+            direction: SQLiteQueryDirection = SQLiteQueryDirection.ASCENDING
+        ): SubSorting = this.apply {
             val andOrderBySyntax = "$ELEMENT_SEPARATOR $field ${direction.rawValue}"
             this@SQLiteQueryBuilder.append(andOrderBySyntax)
         }

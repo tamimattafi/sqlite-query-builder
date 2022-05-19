@@ -11,8 +11,8 @@ internal object SQLiteQueryUtils {
      * Note that parentheses are not appended by default
      *
      */
-    internal fun Array<out Any>.toSQLiteElements(): String
-        = joinToString(separator = SQLiteSyntax.ELEMENT_SEPARATOR)
+    internal fun Array<out Any>.toSQLiteElements(): String =
+        joinToString(separator = SQLiteSyntax.ELEMENT_SEPARATOR)
 
 
     /**
@@ -23,10 +23,9 @@ internal object SQLiteQueryUtils {
      * Note that parentheses are appended by default
      *
      */
-    internal fun Array<out Any>.toContainedSQLiteElements(): String
-        = joinToString(
-            separator = SQLiteSyntax.ELEMENT_SEPARATOR,
-            prefix = SQLiteSyntax.OPEN_PARENTHESES,
-            postfix = SQLiteSyntax.CLOSE_PARENTHESES
-        )
+    internal fun Array<out Any>.toContainedSQLiteElements(): String = joinToString(
+        separator = SQLiteSyntax.ELEMENT_SEPARATOR,
+        prefix = SQLiteSyntax.OPEN_PARENTHESES,
+        postfix = SQLiteSyntax.CLOSE_PARENTHESES
+    )
 }
