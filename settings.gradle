@@ -1,2 +1,2 @@
-include ':library'
-rootProject.name = "sqlite-query-builder"
+include ':builder'
+rootProject.name = "sqlite"
