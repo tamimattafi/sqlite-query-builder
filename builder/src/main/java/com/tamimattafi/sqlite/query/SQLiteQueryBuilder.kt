@@ -366,8 +366,6 @@ open class SQLiteQueryBuilder {
             //Gets the raw query builder instance from the parent class
             val rawQueryBuilder = this@SQLiteQueryBuilder.rawQueryBuilder
 
-            rawQueryBuilder.trimToSize()
-
             //If appendCloser is true, a semicolon is appended
             if (appendCloser) rawQueryBuilder.append(CLOSER)
 
