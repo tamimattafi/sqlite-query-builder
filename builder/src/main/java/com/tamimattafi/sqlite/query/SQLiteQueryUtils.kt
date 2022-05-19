@@ -27,5 +27,7 @@ internal object SQLiteQueryUtils {
         separator = SQLiteSyntax.ELEMENT_SEPARATOR,
         prefix = SQLiteSyntax.OPEN_PARENTHESES,
         postfix = SQLiteSyntax.CLOSE_PARENTHESES
-    )
+    ) { value ->
+        "'$value'"
+    }
 }

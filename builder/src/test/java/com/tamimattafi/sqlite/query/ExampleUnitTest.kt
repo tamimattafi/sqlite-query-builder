@@ -26,6 +26,14 @@ class ExampleUnitTest {
             .where("lol", SQLiteQueryBuilder.Merging::and)
             .equalTo("Nice")
 
+        rawQueryBuilder
+            .where("lmao", SQLiteQueryBuilder.Merging::and)
+            .containedIn(arrayOf("wqe", "weq", "qwe"))
+
+        rawQueryBuilder
+            .where("vvv", SQLiteQueryBuilder.Merging::or)
+            .containedIn(arrayOf("wqe", "weq", "qwe"))
+
         val rawQuery = rawQueryBuilder
             .orderBy("lol")
             .andOrderBy("ww")
@@ -34,7 +42,11 @@ class ExampleUnitTest {
             .build()
 
         print("Raw query: $rawQuery")
-        assertTrue(rawQuery.contains("WHERE") && rawQuery.contains("AND"))
+        assertTrue(
+            rawQuery.contains("WHERE")
+                    && rawQuery.contains("AND")
+                    && rawQuery.contains("OR")
+        )
     }
 
 }

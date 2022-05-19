@@ -676,10 +676,7 @@ open class SQLiteQueryBuilder {
          * @see Merging
          *
          */
-        fun containedIn(values: Array<Any>): Merging {
-            //Asserts that the given list of values is not empty
-            require(values.isNotEmpty())
-
+        fun containedIn(values: Array<out Any>): Merging {
             //Converts values list to SQLite elements representation such as value1, value2 etc..
             val valuesSyntax = values.toContainedSQLiteElements()
 
@@ -698,10 +695,7 @@ open class SQLiteQueryBuilder {
          * @see Merging
          *
          */
-        fun notContainedIn(values: Array<Any>): Merging {
-            //Asserts that the given list of values is not empty
-            require(values.isNotEmpty())
-
+        fun notContainedIn(values: Array<out Any>): Merging {
             //Converts values list to SQLite elements representation such as value1, value2 etc..
             val valuesSyntax = values.toContainedSQLiteElements()
 
