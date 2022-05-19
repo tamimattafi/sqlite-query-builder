@@ -29,6 +29,4 @@ internal object SQLiteQueryUtils {
             prefix = SQLiteSyntax.OPEN_PARENTHESES,
             postfix = SQLiteSyntax.CLOSE_PARENTHESES
         )
-
-
 }

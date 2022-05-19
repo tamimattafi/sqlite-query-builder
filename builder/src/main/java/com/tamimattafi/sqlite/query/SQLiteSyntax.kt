@@ -25,5 +25,4 @@ internal object SQLiteSyntax {
     const val CLOSE_PARENTHESES = ")"
     const val CLOSER = ";"
     const val NEW_LINE = "\n"
-
 }

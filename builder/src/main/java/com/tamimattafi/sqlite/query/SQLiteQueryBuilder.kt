@@ -47,19 +47,6 @@ open class SQLiteQueryBuilder {
      */
     protected open val rawQueryBuilder = StringBuilder()
 
-
-    protected open var selecting: WeakReference<Selecting>? = null
-    protected open var modifying: WeakReference<Modifying>? = null
-    protected open var sourceSelection: WeakReference<Source>? = null
-    protected open var filtering: WeakReference<Filtering>? = null
-    protected open var joining: WeakReference<Joining>? = null
-    protected open var merging: WeakReference<Merging>? = null
-    protected open var sorting: WeakReference<Sorting>? = null
-    protected open var subSorting: WeakReference<SubSorting>? = null
-    protected open var quantifying: WeakReference<Quantifying>? = null
-    protected open var skipping: WeakReference<Skipping>? = null
-
-
     /**
      * Starts building a selection query to read lists, columns or single rows from a table
      *
@@ -74,7 +61,7 @@ open class SQLiteQueryBuilder {
         this.append(SELECT)
 
         //Creates (Lazy) and returns selection type handler
-        return this.beginSelection()
+        return Selecting()
     }
 
 
@@ -104,6 +91,31 @@ open class SQLiteQueryBuilder {
 
 
     /**
+     * Appends SQLite syntax or query to the current query that's being built from another builder
+     *
+     * Note:
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
+     *
+     * @param syntax The raw syntax to be appended
+     *
+     * @return The current query-builder instance
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
+     * @see <a href="https://www.sqlite.org/lang.html">SQLite syntax</a>
+     *
+     */
+    open fun append(action: SQLiteQueryBuilder.() -> InnerBuilder) = this.apply {
+        val syntax = SQLiteQueryBuilder().action().build()
+        //Throws Illegal argument exception if the syntax is blank (contains only spaces)
+        require(syntax.isNotBlank())
+
+        //Appends the raw syntax and a space at the end
+        this.rawQueryBuilder.append(syntax).append(SEPARATOR)
+    }
+
+    /**
      * Appends a raw syntax and starts source selection process.
      *
      * Note:
@@ -127,7 +139,7 @@ open class SQLiteQueryBuilder {
         this.append(syntax)
 
         //Creates (Lazy) and returns source selection handler
-        return this.beginSourceSelection()
+        return Source()
     }
 
 
@@ -155,7 +167,7 @@ open class SQLiteQueryBuilder {
         this.append(syntax)
 
         //Creates (Lazy) and returns modification handler
-        return this.modify()
+        return Modifying()
     }
 
 
@@ -182,7 +194,7 @@ open class SQLiteQueryBuilder {
         this.append(syntax)
 
         //Creates (Lazy) and returns filtering handler
-        return this.filter()
+        return Filtering()
     }
 
     open fun appendAndJoin(syntax: String): Joining {
@@ -190,7 +202,7 @@ open class SQLiteQueryBuilder {
         this.append(syntax)
 
         //Creates (Lazy) and returns joining handler
-        return this.join()
+        return Joining()
     }
 
 
@@ -217,7 +229,7 @@ open class SQLiteQueryBuilder {
         this.append(syntax)
 
         //Creates (Lazy) and returns merging handler
-        return this.merge()
+        return Merging()
     }
 
 
@@ -244,7 +256,7 @@ open class SQLiteQueryBuilder {
         this.append(syntax)
 
         //Creates (Lazy) and returns merging handler
-        return this.sort()
+        return Sorting()
     }
 
 
@@ -271,7 +283,7 @@ open class SQLiteQueryBuilder {
         this.append(syntax)
 
         //Creates (Lazy) and returns merging handler
-        return this.subSort()
+        return SubSorting()
     }
 
 
@@ -298,7 +310,7 @@ open class SQLiteQueryBuilder {
         this.append(syntax)
 
         //Creates (Lazy) and returns merging handler
-        return this.quantify()
+        return Quantifying()
     }
 
 
@@ -325,7 +337,7 @@ open class SQLiteQueryBuilder {
         this.append(syntax)
 
         //Creates (Lazy) and returns merging handler
-        return this.skip()
+        return Skipping()
     }
 
 
@@ -970,128 +982,5 @@ open class SQLiteQueryBuilder {
             val fromSubQuerySyntax = "$FROM $OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
             return this@SQLiteQueryBuilder.appendAndModify(fromSubQuerySyntax)
         }
-
-
     }
-
-
-    //TODO: refactor all these switch methods
-    protected open fun beginSelection(): Selecting {
-        var selecting = this.selecting?.get()
-
-        if (selecting == null) {
-            selecting = Selecting()
-            this.selecting = WeakReference(selecting)
-        }
-
-        return selecting
-    }
-
-
-    protected open fun modify(): Modifying {
-        var modifying = this.modifying?.get()
-
-        if (modifying == null) {
-            modifying = Modifying()
-            this.modifying = WeakReference(modifying)
-        }
-
-        return modifying
-    }
-
-
-    protected open fun beginSourceSelection(): Source {
-        var sourceSelection = this.sourceSelection?.get()
-
-        if (sourceSelection == null) {
-            sourceSelection = Source()
-            this.sourceSelection = WeakReference(sourceSelection)
-        }
-
-        return sourceSelection
-    }
-
-
-    protected open fun filter(): Filtering {
-        var filtering = this.filtering?.get()
-
-        if (filtering == null) {
-            filtering = Filtering()
-            this.filtering = WeakReference(filtering)
-        }
-
-        return filtering
-    }
-
-
-    protected open fun join(): Joining {
-        var joining = this.joining?.get()
-
-        if (joining == null) {
-            joining = Joining()
-            this.joining = WeakReference(joining)
-        }
-
-        return joining
-    }
-
-
-    protected open fun merge(): Merging {
-        var merging = this.merging?.get()
-
-        if (merging == null) {
-            merging = Merging()
-            this.merging = WeakReference(merging)
-        }
-
-        return merging
-    }
-
-
-    protected open fun sort(): Sorting {
-        var sorting = this.sorting?.get()
-
-        if (sorting == null) {
-            sorting = Sorting()
-            this.sorting = WeakReference(sorting)
-        }
-
-        return sorting
-    }
-
-    protected open fun subSort(): SubSorting {
-        var subSorting = this.subSorting?.get()
-
-        if (subSorting == null) {
-            subSorting = SubSorting()
-            this.subSorting = WeakReference(subSorting)
-        }
-
-        return subSorting
-    }
-
-
-    protected open fun quantify(): Quantifying {
-        var quantifying = this.quantifying?.get()
-
-        if (quantifying == null) {
-            quantifying = Quantifying()
-            this.quantifying = WeakReference(quantifying)
-        }
-
-        return quantifying
-    }
-
-
-    protected open fun skip(): Skipping {
-        var skipping = this.skipping?.get()
-
-        if (skipping == null) {
-            skipping = Skipping()
-            this.skipping = WeakReference(skipping)
-        }
-
-        return skipping
-    }
-
 }
