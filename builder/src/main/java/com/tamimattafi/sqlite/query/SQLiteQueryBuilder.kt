@@ -681,7 +681,7 @@ open class SQLiteQueryBuilder {
             val valuesSyntax = values.toContainedSQLiteElements()
 
             //Appends containing operation syntax and returns merging handler
-            return this.appendLogicalOperation(IN, valuesSyntax)
+            return this.appendLogicalOperation(IN, valuesSyntax, wrapValue = false)
         }
 
 
@@ -703,7 +703,7 @@ open class SQLiteQueryBuilder {
             val notInSyntax = "$NOT $IN"
 
             //Appends non-containing operation syntax and returns merging handler
-            return this.appendLogicalOperation(notInSyntax, valuesSyntax)
+            return this.appendLogicalOperation(notInSyntax, valuesSyntax, wrapValue = false)
         }
 
 
@@ -725,7 +725,7 @@ open class SQLiteQueryBuilder {
             val subQuerySyntax = "$OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
 
             //Appends containing operation syntax and returns merging handler
-            return this.appendLogicalOperation(IN, subQuerySyntax)
+            return this.appendLogicalOperation(IN, subQuerySyntax, wrapValue = false)
         }
 
 
@@ -750,7 +750,7 @@ open class SQLiteQueryBuilder {
             val notInSyntax = "$NOT $IN"
 
             //Appends non-containing operation syntax and returns merging handler
-            return this.appendLogicalOperation(notInSyntax, subQuerySyntax)
+            return this.appendLogicalOperation(notInSyntax, subQuerySyntax, wrapValue = false)
         }
 
 
@@ -807,7 +807,7 @@ open class SQLiteQueryBuilder {
             val subQuerySyntax = "$OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
 
             //Appends existence operation syntax and returns merging handler
-            return this.appendLogicalOperation(EXISTS, subQuerySyntax)
+            return this.appendLogicalOperation(EXISTS, subQuerySyntax, wrapValue = false)
         }
 
 
@@ -832,7 +832,7 @@ open class SQLiteQueryBuilder {
             val notExistsSyntax = "$NOT $EXISTS"
 
             //Appends existence operation syntax and returns merging handler
-            return this.appendLogicalOperation(notExistsSyntax, subQuerySyntax)
+            return this.appendLogicalOperation(notExistsSyntax, subQuerySyntax, wrapValue = false)
         }
 
         fun between(firstValue: Any, secondValue: Any): Merging {
@@ -856,8 +856,14 @@ open class SQLiteQueryBuilder {
             return this@SQLiteQueryBuilder.appendAndMerge(isNotNullSyntax)
         }
 
-        protected open fun appendLogicalOperation(operator: String, value: Any): Merging {
-            val whereClauseSyntax = "$operator $value"
+        protected open fun appendLogicalOperation(
+            operator: String,
+            value: Any,
+            wrapValue: Boolean = true
+        ): Merging {
+            val whereClauseSyntax = if (wrapValue) "$operator '$value'"
+            else "$operator $value"
+
             return this@SQLiteQueryBuilder.appendAndMerge(whereClauseSyntax)
         }
 
