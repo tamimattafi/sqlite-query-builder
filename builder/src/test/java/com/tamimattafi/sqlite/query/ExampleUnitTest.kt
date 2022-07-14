@@ -14,39 +14,28 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         val rawQueryBuilder = SQLiteQueryBuilder()
-                .select()
-                .all()
-                .fromTable("users")
-
-        rawQueryBuilder
-            .where("lol")
-            .equalTo("Nice")
-
-        rawQueryBuilder
-            .where("lol", SQLiteQueryBuilder.Merging::and)
-            .equalTo("Nice")
-
-        rawQueryBuilder
-            .where("lmao", SQLiteQueryBuilder.Merging::and)
-            .containedIn(arrayOf("wqe", "weq", "qwe"))
-
-        rawQueryBuilder
-            .where("vvv", SQLiteQueryBuilder.Merging::or)
-            .containedIn(arrayOf("wqe", "weq", "qwe"))
-
-        val rawQuery = rawQueryBuilder
-            .orderBy("lol")
-            .andOrderBy("ww")
-            .limit(100)
-            .offset(144)
+            .select()
+            .all()
+            .fromTable("users")
+            .where("isCredit")
+            .equalTo(0)
+            .andStartPriority("symbol")
+            .containedIn(arrayOf("USDT", "BNB"))
+            .or("network")
+            .containedIn(arrayOf("ERC20", "BEP20"))
+            .endPriority()
+            .andStartPriority("amount")
+            .like("12.00")
+            .and("name")
+            .like("Allah akbar")
+            .endPriority()
+            .or("price")
+            .equalTo(1)
+            .orderBy("symbol")
+            .limit(10)
             .build()
 
-        print("Raw query: $rawQuery")
-        assertTrue(
-            rawQuery.contains("WHERE")
-                    && rawQuery.contains("AND")
-                    && rawQuery.contains("OR")
-        )
+        println(rawQueryBuilder)
     }
 
 }

@@ -195,6 +195,33 @@ open class SQLiteQueryBuilder {
         return Filtering()
     }
 
+    /**
+     * Appends a raw syntax and starts filtering process.
+     *
+     * Note:
+     * This method calls SQLiteQueryBuilder.append(...) to append the raw syntax.
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
+     *
+     * @param syntax The raw syntax to be appended
+     *
+     * @return Filtering handler
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
+     * @see PriorityFiltering
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where Clause syntax</a>
+     *
+     */
+    open fun appendAndPriorityFilter(syntax: String): PriorityFiltering {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns filtering handler
+        return PriorityFiltering()
+    }
+
+
     open fun appendAndJoin(syntax: String): Joining {
         //Appends the raw syntax and a space at the end
         this.append(syntax)
@@ -228,6 +255,33 @@ open class SQLiteQueryBuilder {
 
         //Creates (Lazy) and returns merging handler
         return Merging()
+    }
+
+
+    /**
+     * Appends a raw syntax and starts merging process.
+     *
+     * Note:
+     * This method calls SQLiteQueryBuilder.append(...) to append the raw syntax.
+     * This method only checks if the passed parameters are not empty.
+     * It doesn't guarantee that the raw syntax has no errors.
+     *
+     * @param syntax The raw syntax to be appended
+     *
+     * @return Merging handler
+     *
+     * @exception IllegalArgumentException if the syntax is empty.
+     *
+     * @see Merging
+     * @see <a href="https://www.tutorialspoint.com/sqlite/sqlite_and_or_clauses.htm">SQLite merge operators syntax</a>
+     *
+     */
+    open fun appendAndPriorityMerge(syntax: String): PriorityMerging {
+        //Appends the raw syntax and a space at the end
+        this.append(syntax)
+
+        //Creates (Lazy) and returns merging handler
+        return PriorityMerging()
     }
 
 
@@ -521,6 +575,36 @@ open class SQLiteQueryBuilder {
 
             //Appends where clause syntax and switches to filtering
             return this@SQLiteQueryBuilder.appendAndFilter(whereClauseSyntax)
+        }
+
+        /**
+         * Adds a where-clause (condition) to the query to filter by a specific column of the selected table.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param column The column to be filtered by
+         * @param fallBackAction If this action is provided, it will be used instead of where if the
+         * query already has the WHERE keyword
+         *
+         * @return Query filtering handler
+         * @see PriorityFiltering
+         *
+         */
+        open fun wherePriority(
+            column: String,
+            fallBackAction: (PriorityMerging.(String) -> PriorityFiltering)? = null
+        ): PriorityFiltering {
+            //Asserts that column name is not empty or blank
+            require(column.isNotBlank())
+
+            if (rawQueryBuilder.contains(WHERE) && fallBackAction != null) {
+                return this@SQLiteQueryBuilder.PriorityMerging().fallBackAction(column)
+            }
+
+            //Creates where clause syntax with the given column
+            val whereClauseSyntax = "$WHERE $OPEN_PARENTHESES $column"
+
+            //Appends where clause syntax and switches to filtering
+            return this@SQLiteQueryBuilder.appendAndPriorityFilter(whereClauseSyntax)
         }
 
 
@@ -883,6 +967,352 @@ open class SQLiteQueryBuilder {
             return this@SQLiteQueryBuilder.appendAndFilter(orSyntax)
         }
 
+        fun andStartPriority(column: String): PriorityFiltering {
+            val andSyntax = "$AND $OPEN_PARENTHESES $column"
+            return this@SQLiteQueryBuilder.appendAndPriorityFilter(andSyntax)
+        }
+
+        fun orStartPriority(column: String): PriorityFiltering {
+            val andSyntax = "$OR $OPEN_PARENTHESES $column"
+            return this@SQLiteQueryBuilder.appendAndPriorityFilter(andSyntax)
+        }
+    }
+
+    /**
+     * Handles query filtering using equations, ranges etc.. and limits syntax errors by limiting the amount of methods that can be called.
+     * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+     *
+     * @see PriorityFiltering.equalTo
+     * @see PriorityFiltering.notEqualTo
+     * @see PriorityFiltering.lessThan
+     * @see PriorityFiltering.greaterThan
+     * @see PriorityFiltering.lessOrEqualTo
+     * @see PriorityFiltering.greaterOrEqualTo
+     * @see PriorityFiltering.containedIn
+     * @see PriorityFiltering.notContainedIn
+     * @see PriorityFiltering.containedInSubQuery
+     * @see PriorityFiltering.notContainedInSubQuery
+     * @see PriorityFiltering.exists
+     * @see PriorityFiltering.notExists
+     *
+     */
+    open inner class PriorityFiltering internal constructor() : Resetting() {
+
+
+        /**
+         * Appends equality operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun equalTo(value: Any): PriorityMerging {
+            //Appends equality operation syntax and returns merging handler
+            return this.appendLogicalOperation(EQUAL_TO, value)
+        }
+
+
+        /**
+         * Appends non-equality operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun notEqualTo(value: Any): PriorityMerging {
+            //Appends non-equality operation syntax and returns merging handler
+            return this.appendLogicalOperation(NOT_EQUAL_TO, value)
+        }
+
+
+        /**
+         * Appends non-priority operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun lessThan(value: Any): PriorityMerging {
+            //Appends non-priority operation syntax and returns merging handler
+            return this.appendLogicalOperation(LESS_THAN, value)
+        }
+
+
+        /**
+         * Appends priority operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun greaterThan(value: Any): PriorityMerging {
+            //Appends priority operation syntax and returns merging handler
+            return this.appendLogicalOperation(GREATER_THAN, value)
+        }
+
+
+        /**
+         * Appends equality or non-priority operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun lessOrEqualTo(value: Any): PriorityMerging {
+            //Appends equality or non-priority operation syntax and returns merging handler
+            return this.appendLogicalOperation(LESS_THAN_OR_EQUAL_TO, value)
+        }
+
+
+        /**
+         * Appends equality or priority operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be compared to the column's value
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun greaterOrEqualTo(value: Any): PriorityMerging {
+            //Appends equality or priority operation syntax and returns merging handler
+            return this.appendLogicalOperation(GREATER_THAN_OR_EQUAL_TO, value)
+        }
+
+
+        /**
+         * Appends containing operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param values Values list that will be checked whether it contains the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun containedIn(values: Array<out Any>): PriorityMerging {
+            //Converts values list to SQLite elements representation such as value1, value2 etc..
+            val valuesSyntax = values.toContainedSQLiteElements()
+
+            //Appends containing operation syntax and returns merging handler
+            return this.appendLogicalOperation(IN, valuesSyntax, wrapValue = false)
+        }
+
+
+        /**
+         * Appends non-containing operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param values Values list that will be checked whether it doesn't contain the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun notContainedIn(values: Array<out Any>): PriorityMerging {
+            //Converts values list to SQLite elements representation such as value1, value2 etc..
+            val valuesSyntax = values.toContainedSQLiteElements()
+
+            //Creates non-containing operation syntax
+            val notInSyntax = "$NOT $IN"
+
+            //Appends non-containing operation syntax and returns merging handler
+            return this.appendLogicalOperation(notInSyntax, valuesSyntax, wrapValue = false)
+        }
+
+
+        /**
+         * Appends containing operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param subQuery The query that returns a list result which will be checked whether it contain the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun containedInSubQuery(subQuery: String): PriorityMerging {
+            //Asserts that the given subQuery is not blank or empty
+            require(subQuery.isNotBlank())
+
+            //Creates subQuery syntax using the given value
+            val subQuerySyntax = "$OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
+
+            //Appends containing operation syntax and returns merging handler
+            return this.appendLogicalOperation(IN, subQuerySyntax, wrapValue = false)
+        }
+
+
+        /**
+         * Appends non-containing operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param subQuery The query that returns a list result which will be checked whether it doesn't contain the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun notContainedInSubQuery(subQuery: String): PriorityMerging {
+            //Asserts that the given subQuery is not blank or empty
+            require(subQuery.isNotBlank())
+
+            //Creates subQuery syntax using the given value
+            val subQuerySyntax = "$OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
+
+            //Creates non-containing operation syntax
+            val notInSyntax = "$NOT $IN"
+
+            //Appends non-containing operation syntax and returns merging handler
+            return this.appendLogicalOperation(notInSyntax, subQuerySyntax, wrapValue = false)
+        }
+
+
+        /**
+         * Appends search operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that will be matched with the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun like(value: Any): PriorityMerging {
+            //Appends search operation syntax and returns merging handler
+            return this.appendLogicalOperation(LIKE, value)
+        }
+
+
+        /**
+         * Appends reversed-search operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param value The value that should not be matched with the value of the given column
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun notLike(value: Any): PriorityMerging {
+            //Creates reversed search operation syntax
+            val notLikeSyntax = "$NOT $LIKE"
+
+            //Appends reversed-search operation syntax and returns merging handler
+            return this.appendLogicalOperation(notLikeSyntax, value)
+        }
+
+
+        /**
+         * Appends existence operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param subQuery The query that will be checked for existence of the the given column
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun exists(subQuery: String): PriorityMerging {
+            //Asserts that the given subQuery is not blank or empty
+            require(subQuery.isNotBlank())
+
+            //Creates subQuery syntax using the given value
+            val subQuerySyntax = "$OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
+
+            //Appends existence operation syntax and returns merging handler
+            return this.appendLogicalOperation(EXISTS, subQuerySyntax, wrapValue = false)
+        }
+
+
+        /**
+         * Appends non-existence operation to where clause.
+         * @see <a href="https://www.sqlitetutorial.net/sqlite-where/">SQLite where clause syntax</a>
+         *
+         * @param subQuery The query that will be checked for non-existence of the the given column
+         *
+         * @return Query statements merging handler
+         * @see _root_ide_package_.com.tamimattafi.sqlite.query.SQLiteQueryBuilder.PriorityMerging
+         *
+         */
+        fun notExists(subQuery: String): PriorityMerging {
+            //Asserts that the given subQuery is not blank or empty
+            require(subQuery.isNotBlank())
+
+            //Creates subQuery syntax using the given value
+            val subQuerySyntax = "$OPEN_PARENTHESES $subQuery $CLOSE_PARENTHESES"
+
+            //Creates non-existence query syntax
+            val notExistsSyntax = "$NOT $EXISTS"
+
+            //Appends existence operation syntax and returns merging handler
+            return this.appendLogicalOperation(notExistsSyntax, subQuerySyntax, wrapValue = false)
+        }
+
+        fun between(firstValue: Any, secondValue: Any): PriorityMerging {
+            val rangeSyntax = "$firstValue $AND $secondValue"
+            return this.appendLogicalOperation(BETWEEN, rangeSyntax)
+        }
+
+        fun notBetween(firstValue: Any, secondValue: Any): PriorityMerging {
+            val rangeSyntax = "$firstValue $AND $secondValue"
+            val notBetweenSyntax = "$NOT $BETWEEN"
+            return this.appendLogicalOperation(notBetweenSyntax, rangeSyntax)
+        }
+
+        fun isNull(): PriorityMerging {
+            val isNullSyntax = "$IS $NULL"
+            return this@SQLiteQueryBuilder.appendAndPriorityMerge(isNullSyntax)
+        }
+
+        fun isNotNull(): PriorityMerging {
+            val isNotNullSyntax = "$IS $NOT $NULL"
+            return this@SQLiteQueryBuilder.appendAndPriorityMerge(isNotNullSyntax)
+        }
+
+        protected open fun appendLogicalOperation(
+            operator: String,
+            value: Any,
+            wrapValue: Boolean = true
+        ): PriorityMerging {
+            val whereClauseSyntax = if (wrapValue) "$operator '$value'"
+            else "$operator $value"
+
+            return this@SQLiteQueryBuilder.appendAndPriorityMerge(whereClauseSyntax)
+        }
+
+    }
+
+    open inner class PriorityMerging internal constructor() : Resetting() {
+
+        fun and(column: String): PriorityFiltering {
+            val andSyntax = "$AND $column"
+            return this@SQLiteQueryBuilder.appendAndPriorityFilter(andSyntax)
+        }
+
+        fun or(column: String): PriorityFiltering {
+            val orSyntax = "$OR $column"
+            return this@SQLiteQueryBuilder.appendAndPriorityFilter(orSyntax)
+        }
+
+        fun endPriority(): Merging {
+            return this@SQLiteQueryBuilder.appendAndMerge(CLOSE_PARENTHESES)
+        }
     }
 
 
